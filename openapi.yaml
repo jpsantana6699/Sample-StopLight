@@ -1,0 +1,202 @@
+openapi: 3.0.3
+info:
+  title: Hello World API
+  version: 1.0.0
+  description: |
+    API simples que retorna uma mensagem Hello World com documentação e testes integrados.
+    
+    ## Como testar
+    
+    1. 📖 Navegue pelos endpoints na barra lateral
+    2. 🧪 Clique em **"Send API Request"** ou **"Try It"** 
+    3. ✅ Veja as respostas em tempo real
+    
+    ## Funcionalidades
+    
+    - ✅ Rota Hello World
+    - ✅ Status da API
+    - ✅ Documentação interativa
+    - ✅ Testes diretos na interface
+    
+    ## Tecnologias
+    
+    - Node.js
+    - TypeScript
+    - Express.js
+    - Stoplight Elements
+    
+  contact:
+    name: API Support
+    email: support@example.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor de desenvolvimento local - USE ESTE PARA TESTES
+
+tags:
+  - name: Hello
+    description: Endpoints de saudação
+  - name: System
+    description: Endpoints do sistema
+
+paths:
+  /api/hello:
+    get:
+      summary: Retorna uma mensagem Hello World
+      description: |
+        Endpoint que retorna um JSON com a mensagem 'Hello World'.
+        
+        Este é um exemplo básico de como documentar uma API usando OpenAPI.
+        Você pode testar diretamente clicando em "Try it out" abaixo.
+      operationId: getHelloWorld
+      tags:
+        - Hello
+      responses:
+        '200':
+          description: Resposta de sucesso com mensagem Hello World
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloResponse'
+              examples:
+                success:
+                  summary: Resposta de sucesso
+                  description: Exemplo de resposta bem-sucedida
+                  value:
+                    message: Hello World
+        '500':
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/status:
+    get:
+      tags:
+        - System
+      summary: Status da API
+      description: |
+        Retorna o status atual da API, incluindo timestamp e versão.
+        Útil para verificar se o serviço está online e funcionando.
+      operationId: getStatus
+      responses:
+        '200':
+          description: Status da API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+              examples:
+                success:
+                  value:
+                    status: "OK"
+                    timestamp: "2024-01-15T10:30:00.000Z"
+                    version: "1.0.0"
+
+  /:
+    get:
+      tags:
+        - System
+      summary: Informações da API
+      description: |
+        Endpoint raiz que retorna informações básicas sobre a API
+        e links para a documentação.
+      operationId: getRoot
+      responses:
+        '200':
+          description: Informações da API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RootResponse'
+
+components:
+  schemas:
+    HelloResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: Mensagem de saudação
+          example: Hello World
+
+    StatusResponse:
+      type: object
+      required:
+        - status
+        - timestamp
+        - version
+      properties:
+        status:
+          type: string
+          description: Status atual da API
+          enum: [OK, ERROR]
+          example: OK
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp da resposta
+          example: "2024-01-15T10:30:00.000Z"
+        version:
+          type: string
+          description: Versão da API
+          example: "1.0.0"
+
+    RootResponse:
+      type: object
+      required:
+        - message
+        - documentation
+        - endpoints
+      properties:
+        message:
+          type: string
+          description: Nome da API
+          example: "Hello World API - Documentação e Testes"
+        documentation:
+          type: object
+          description: Links para documentação
+          properties:
+            swagger:
+              type: string
+              format: uri
+              description: Link para Swagger UI
+              example: "http://localhost:3000/api-docs"
+            openapi:
+              type: string
+              format: uri
+              description: Link para especificação OpenAPI
+              example: "http://localhost:3000/api/openapi.json"
+        endpoints:
+          type: object
+          description: Links para endpoints disponíveis
+          properties:
+            hello:
+              type: string
+              format: uri
+              example: "http://localhost:3000/api/hello"
+            status:
+              type: string
+              format: uri
+              example: "http://localhost:3000/api/status"
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Tipo do erro
+          example: "INTERNAL_ERROR"
+        message:
+          type: string
+          description: Mensagem de erro
+          example: "Ocorreu um erro interno no servidor"

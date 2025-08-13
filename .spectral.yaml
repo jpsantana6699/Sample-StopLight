@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json.schemastore.org/spectral",
+  "extends": ["@stoplight/spectral/rulesets/oas"],
+  "rules": {}
+}
